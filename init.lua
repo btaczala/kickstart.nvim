@@ -534,11 +534,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         json = { 'fixjson' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        cmake = { 'cmake_format' },
       },
     },
   },
@@ -709,6 +705,12 @@ require('lazy').setup({
       }
       auto_dark_mode.init()
     end,
+  },
+  {
+    'numToStr/Comment.nvim',
+    opts = {
+      -- add any options here
+    },
   },
 
   { -- You can easily change to a different colorscheme.
