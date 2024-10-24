@@ -13,10 +13,32 @@ return {
     local neogit = require 'neogit'
     local diffview = require 'diffview'
     neogit.setup {
+      use_default_keymaps = false,
       mappings = {
         status = {
           ['l'] = 'MoveUp',
           ['k'] = 'MoveDown',
+          ['<tab>'] = 'Toggle',
+          ['<cr>'] = 'GoToFile',
+          ['<leader>s'] = 'Stage',
+          ['<leader>S'] = 'StageUnstaged',
+          ['<leader>u'] = 'Unstage',
+          ['<leader>U'] = 'UnstageStaged',
+          ['<leader>x'] = 'Discard',
+        },
+        commit_editor_I = {
+          ['<c-c><c-c>'] = 'Submit',
+          ['<c-c><c-k>'] = 'Abort',
+        },
+        rebase_editor_I = {
+          ['<c-c><c-c>'] = 'Submit',
+          ['<c-c><c-k>'] = 'Abort',
+        },
+        popup = {
+          ['<leader>c'] = 'CommitPopup',
+          ['<leader>d'] = 'DiffPopup',
+          ['<leader>l'] = 'LogPopup',
+          ['?'] = 'HelpPopup',
         },
       },
     }

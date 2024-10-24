@@ -32,6 +32,9 @@ return {
         refresh_rate_ms = 100, -- how often to iterate icons
       },
       cmake_virtual_text_support = true,
+      cmake_runner = {
+        name = 'overseer',
+      },
     }
   end,
 }

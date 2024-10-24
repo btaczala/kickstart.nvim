@@ -38,6 +38,10 @@ require('lazy').setup({
       require('notify').setup()
     end,
   },
+  {
+    'stevearc/overseer.nvim',
+    opts = {},
+  },
 
   require 'kickstart/plugins/which-key',
   require 'kickstart/plugins/lsp-config',

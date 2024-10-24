@@ -38,7 +38,7 @@ return {
     { "<leader>dp", function() require("dap").pause() end, desc = "Pause" },
     { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
     { "<leader>ds", function() require("dap").session() end, desc = "Session" },
-    { "<leader>dt", function() require("dap").terminate() end, desc = "Terminate" },
+    { "<leader>dx", function() require("dap").terminate() end, desc = "Terminate" },
     { "<leader>du", function() require("dapui").toggle() end, desc = "Toggle UI" },
     { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
   },
@@ -55,18 +55,28 @@ return {
     vim.fn.sign_define('DapLogPoint', { text = '', texthl = 'DapLogPoint', linehl = 'DapLogPoint', numhl = 'DapLogPoint' })
     vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
     local dap = require 'dap'
+    local dapui = require 'dapui'
 
     dap.adapters.codelldb = {
       type = 'server',
-      port = '${port}',
+      port = '61998',
       executable = {
         -- CHANGE THIS to your path!
         command = '/Users/bartek/.codelldb/extension/adapter/codelldb',
-        args = { '--port', '${port}' },
+        args = { '--port', '61998' },
 
         -- On windows you may have to uncomment this:
         -- detached = false,
       },
     }
+    dap.listeners.after.event_initialized['dapui_config'] = function()
+      dapui.open()
+    end
+    dap.listeners.after.event_terminated['dapui_config'] = function()
+      dapui.close()
+    end
+    dap.listeners.after.event_exited['dapui_config'] = function()
+      dapui.close()
+    end
   end,
 }
