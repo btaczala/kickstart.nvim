@@ -41,6 +41,19 @@ vim.keymap.set('n', '<A-;>', require('smart-splits').resize_right)
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<leader>oo', '<cmd>OverseerToggle<CR>')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
+local bm = require 'bookmarks'
+vim.keymap.set('n', '<leader>mm', bm.bookmark_toggle, { desc = 'Toggle Book[m]ark' })
+vim.keymap.set('n', '<leader>ms', '<cmd>Telescope bookmarks list<CR>', { desc = '[S]how bookmarks' })
+vim.keymap.set('n', '<leader>mx', bm.bookmark_clean, { desc = 'Bookmark Clean' })
+vim.keymap.set('n', '<leader>mn', bm.bookmark_next, { desc = 'Bookmark [N]ext' })
+vim.keymap.set('n', '<leader>mp', bm.bookmark_next, { desc = 'Bookmark [P]revious' })
+vim.keymap.set('n', '<leader>ma', bm.bookmark_ann, { desc = 'Bookmark [A]nnotate' })
+vim.keymap.set('n', '<leader>mX', bm.bookmark_clear_all, { desc = 'Bookmark Clear All' })
+
+vim.keymap.set('n', '<leader>cP', ':let @* = expand("%:p")<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>cp', ':let @* = expand("%")<CR>', { noremap = true })

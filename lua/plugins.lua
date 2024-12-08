@@ -15,6 +15,58 @@ require('lazy').setup({
       },
     },
   },
+  {
+    'MunsMan/kitty-navigator.nvim',
+    build = {
+      'cp navigate_kitty.py ~/.config/kitty',
+      'cp pass_keys.py ~/.config/kitty',
+    },
+    opts = {
+      keybindings = {
+        {
+          '<C-j>',
+          function()
+            require('kitty-navigator').navigateLeft()
+          end,
+          desc = 'Move left a Split',
+          mode = { 'n' },
+        },
+        {
+          '<C-k>',
+          function()
+            require('kitty-navigator').navigateDown()
+          end,
+          desc = 'Move down a Split',
+          mode = { 'n' },
+        },
+        {
+          '<C-l>',
+          function()
+            require('kitty-navigator').navigateUp()
+          end,
+          desc = 'Move up a Split',
+          mode = { 'n' },
+        },
+        {
+          '<C-;>',
+          function()
+            require('kitty-navigator').navigateRight()
+          end,
+          desc = 'Move right a Split',
+          mode = { 'n' },
+        },
+      },
+    },
+  },
+
+  {
+    'tomasky/bookmarks.nvim',
+    event = 'VimEnter',
+    opts = {},
+    config = function()
+      require('bookmarks').setup {}
+    end,
+  },
 
   require 'kickstart/plugins/neogit',
   require 'kickstart.plugins.telescope',
@@ -38,9 +90,13 @@ require('lazy').setup({
       require('notify').setup()
     end,
   },
+  require 'kickstart/plugins/overseer',
   {
-    'stevearc/overseer.nvim',
-    opts = {},
+    'eriks47/generate.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require('generate').setup()
+    end,
   },
 
   require 'kickstart/plugins/which-key',
@@ -62,7 +118,7 @@ require('lazy').setup({
     opts = {
       notify_on_error = false,
       format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
+        -- Disable "" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
         local disable_filetypes = { c = true, cpp = true }
@@ -80,9 +136,19 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         json = { 'fixjson' },
-        cmake = { 'cmake_format' },
+        cmake = { 'cmake-format' },
       },
     },
+  },
+  {
+    'rachartier/tiny-inline-diagnostic.nvim',
+    event = 'VeryLazy', -- Or `LspAttach`
+    priority = 1000, -- needs to be loaded in first
+    config = function()
+      require('tiny-inline-diagnostic').setup {
+        preset = 'classic',
+      }
+    end,
   },
   require 'kickstart/plugins/cmake',
   require 'kickstart/plugins/dap',
@@ -91,6 +157,15 @@ require('lazy').setup({
     'p00f/clangd_extensions.nvim',
     ft = { 'c', 'cpp' },
     opts = { extensions = { autoSetHints = false } },
+  },
+  {
+    'rmagatti/auto-session',
+    lazy = false,
+
+    opts = {
+      suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
+      -- log_level = 'debug',
+    },
   },
   {
     'f-person/auto-dark-mode.nvim',
@@ -181,6 +256,8 @@ require('lazy').setup({
   {
     'mrjones2014/smart-splits.nvim',
   },
+  require 'kickstart/plugins/ai',
+  require 'kickstart/plugins/plantuml',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the

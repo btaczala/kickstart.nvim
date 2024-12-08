@@ -12,6 +12,10 @@ return {
   config = function()
     local neogit = require 'neogit'
     local diffview = require 'diffview'
+    local path = vim.fn.getcwd()
+    if string.sub(path, 1, #'/Users/bartek/Projects/inmusic/mount_windows/') == '/Users/bartek/Projects/inmusic/mount_windows/' then
+      return
+    end
     neogit.setup {
       use_default_keymaps = false,
       mappings = {
@@ -21,6 +25,7 @@ return {
           ['<tab>'] = 'Toggle',
           ['<cr>'] = 'GoToFile',
           ['<leader>s'] = 'Stage',
+          ['<leader>R'] = 'RefreshBuffer',
           ['<leader>S'] = 'StageUnstaged',
           ['<leader>u'] = 'Unstage',
           ['<leader>U'] = 'UnstageStaged',
@@ -38,7 +43,11 @@ return {
           ['<leader>c'] = 'CommitPopup',
           ['<leader>d'] = 'DiffPopup',
           ['<leader>l'] = 'LogPopup',
+          ['<leader>P'] = 'PushPopup',
+          ['<leader>p'] = 'PullPopup',
+          ['<leader>r'] = 'RebasePopup',
           ['?'] = 'HelpPopup',
+          ['<leader>h'] = 'HelpPopup',
         },
       },
     }

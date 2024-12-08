@@ -31,9 +31,19 @@ vim.api.nvim_create_augroup('CppFiles', { clear = true })
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   pattern = { '*.qml' },
   callback = function()
-    vim.api.nvim_buf_set_keymap(0, 'n', '<leader>rp', '<cmd>!qml %<CR>', { noremap = true, silent = true })
+    local path = vim.fn.expand '%:p'
+    if string.sub(path, 1, #'/Users/bartek/Projects/inmusic/') == '/Users/bartek/Projects/inmusic/' then
+      vim.api.nvim_buf_set_keymap(0, 'n', '<leader>rp', '<cmd>OverseerRun evstylepreview <CR>', { noremap = true, silent = true })
+    else
+      vim.api.nvim_buf_set_keymap(0, 'n', '<leader>rp', '<cmd>!qmlscene ' .. path .. '<CR>', { noremap = true, silent = true })
+    end
   end,
   group = 'CppFiles',
+})
+
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = { '*.justfile' },
+  command = 'set filetype=just',
 })
 
 vim.api.nvim_create_autocmd('BufEnter', {
