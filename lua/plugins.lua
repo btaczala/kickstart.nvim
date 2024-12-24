@@ -14,6 +14,13 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
     },
+    config = function()
+      local path = vim.fn.getcwd()
+      if string.sub(path, 1, #'/Users/bartek/Projects/inmusic/mount_windows/') == '/Users/bartek/Projects/inmusic/mount_windows/' then
+        return
+      end
+      require('gitsigns').setup()
+    end,
   },
   {
     'MunsMan/kitty-navigator.nvim',
@@ -85,6 +92,12 @@ require('lazy').setup({
   },
   { 'Bilal2453/luvit-meta', lazy = true },
   {
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup {}
+    end,
+  },
+  {
     'rcarriga/nvim-notify',
     config = function()
       require('notify').setup()
@@ -103,6 +116,27 @@ require('lazy').setup({
   require 'kickstart/plugins/lsp-config',
   { -- Autoformat
     'stevearc/conform.nvim',
+    config = function()
+      require('conform').formatters.cmakeformat = {
+        inherit = false,
+        command = 'cmake-format',
+        args = { '', '$FILENAME' },
+      }
+      require('conform').formatters.qmlformat = {
+        inherit = false,
+        command = 'qmlformat',
+        args = { '', '$FILENAME' },
+      }
+      require('conform').setup {
+        log_level = vim.log.levels.DEBUG,
+        formatters_by_ft = {
+          lua = { 'stylua' },
+          json = { 'fixjson' },
+          cmake = { 'cmakeformat' },
+          qml = { 'qmlformat' },
+        },
+      }
+    end,
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     keys = {
@@ -116,28 +150,8 @@ require('lazy').setup({
       },
     },
     opts = {
-      notify_on_error = false,
-      format_on_save = function(bufnr)
-        -- Disable "" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        local lsp_format_opt
-        if disable_filetypes[vim.bo[bufnr].filetype] then
-          lsp_format_opt = 'never'
-        else
-          lsp_format_opt = 'fallback'
-        end
-        return {
-          timeout_ms = 500,
-          lsp_format = lsp_format_opt,
-        }
-      end,
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        json = { 'fixjson' },
-        cmake = { 'cmake-format' },
-      },
+      notify_on_error = true,
+      format_on_save = { timeout_ms = 500 },
     },
   },
   {

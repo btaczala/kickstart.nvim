@@ -64,3 +64,5 @@ vim.api.nvim_create_autocmd('BufEnter', {
     end
   end,
 })
+
+vim.api.nvim_set_keymap('n', '<leader>ww', ':w!<CR>', { noremap = true })
